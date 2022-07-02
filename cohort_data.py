@@ -1,10 +1,6 @@
 """Functions to parse a file containing student data."""
 
 
-from re import fullmatch
-from turtle import st
-
-
 def all_houses(filename):
     """Return a set of all house names in the given file.
 
@@ -24,9 +20,9 @@ def all_houses(filename):
     cohort_data = open(filename)
     
     for line in cohort_data:
-      house = line.rsplit().split('|')[2]
-      if house:
-          houses.add(house)
+        house = line.rstrip().split('|')[2]
+        if house:
+            houses.add(house)
 
     return houses
 
@@ -114,12 +110,12 @@ def all_names_by_house(filename):
     cohort_data = open(filename)
     
     for line in cohort_data:
-      first, last, house, _, cohort_name = line.rsplit().split()
+      first, last, house, _, cohort_name = line.rstrip().split('|')
       
       full_name = f'{first} {last}'
       
       if house:
-        if house == 'Dumbledores Army':
+        if house == "Dumbledore's Army":
           dumbledores_army.append(full_name)
         elif house == 'Gryffindor':
           gryffindor.append(full_name)
@@ -169,7 +165,7 @@ def all_data(filename):
     cohort_data = open(filename)
     
     for line in cohort_data:
-      first, last, house, advisor, cohort_name = line.rsplit().split('|')
+      first, last, house, advisor, cohort_name = line.rstrip().split('|')
       all_data.append((f'{first} {last}', house, advisor, cohort_name))
 
     return all_data
