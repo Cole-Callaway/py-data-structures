@@ -196,7 +196,9 @@ def get_cohort_for(filename, name):
       - str: the person's cohort or None
     """
 
-    # TODO: replace this with your code
+    for full_name, _, _, cohort_name in all_data(filename):
+      if full_name == name:
+        return cohort_name
 
 
 def find_duped_last_names(filename):
@@ -213,7 +215,18 @@ def find_duped_last_names(filename):
       - set[str]: a set of strings
     """
 
-    # TODO: replace this with your code
+    dupes = set()
+    seen = set()
+    
+    for full_name, _, _, _ in all_data(filename):
+      last = full_name.split(' ')[-1]
+      
+      if last in seen:
+        dupes.add(last)
+        
+      seen.add(last)
+      
+    return dupes 
 
 
 def get_housemates_for(filename, name):
@@ -228,8 +241,25 @@ def get_housemates_for(filename, name):
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
 
-    # TODO: replace this with your code
-
+    housemates = set()
+    
+    target_person = None
+    for person in all_data(filename):
+      full_name, house, advisor, cohort_name = person 
+      
+      if full_name == name:
+        target_person = person
+        break
+      
+    if target_person:
+        target_name, target_house, _, target_cohort = target_person
+      
+        for full_name, house, _, cohort_name in all_data(filename):
+            if ((house, cohort_name) == (target_house, target_cohort) and
+                    full_name != name):
+                housemates.add(full_name)
+          
+    return housemates 
 
 ##############################################################################
 # END OF MAIN EXERCISE.  Yay!  You did it! You Rock!
